@@ -35,7 +35,7 @@ namespace Player
 
                 yield return null;
             }
-
+            
             StopCoroutine(_coroutineUpdateHealthBar);
         }
     }
