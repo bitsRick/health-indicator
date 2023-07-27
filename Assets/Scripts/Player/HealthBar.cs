@@ -13,13 +13,8 @@ namespace Player
         private float _currentValueHealthBar;
         private Coroutine _coroutineUpdateHealthBar;
 
-        public void UpdateValueHealthBar(float health)
-        {
-            if (_coroutineUpdateHealthBar != null) 
-                StopCoroutine(_coroutineUpdateHealthBar);
-            
+        public void UpdateValueHealthBar(float health) => 
             _coroutineUpdateHealthBar = StartCoroutine(FadeIn(health));
-        }
 
         public void SetValueHealthBar(float maxHealth,float currentValue)
         {
@@ -37,8 +32,11 @@ namespace Player
                 _sliderHealthBar.value,
                 _currentValueHealthBar, 
                 Time.deltaTime * _healthBarFillingRate);
+
                 yield return null;
             }
+
+            StopCoroutine(_coroutineUpdateHealthBar);
         }
     }
 }
