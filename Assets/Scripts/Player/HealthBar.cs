@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -10,24 +11,34 @@ namespace Player
         [SerializeField] private float _healthBarFillingRate;
 
         private float _currentValueHealthBar;
+        private Coroutine _coroutineUpdateHealthBar;
 
         public void UpdateValueHealthBar(float health)
         {
-            _currentValueHealthBar = health;
+            if (_coroutineUpdateHealthBar != null) 
+                StopCoroutine(_coroutineUpdateHealthBar);
+            
+            _coroutineUpdateHealthBar = StartCoroutine(FadeIn(health));
         }
-        
+
         public void SetValueHealthBar(float maxHealth,float currentValue)
         {
             _sliderHealthBar.maxValue = maxHealth;
             _sliderHealthBar.value = currentValue;
         }
-        
-        private void Update()
+
+        private IEnumerator FadeIn(float currentValueHealth)
         {
-            _sliderHealthBar.value = Mathf.MoveTowards(
+            _currentValueHealthBar = currentValueHealth;
+            
+            while (_sliderHealthBar.value != _currentValueHealthBar)
+            {
+                _sliderHealthBar.value = Mathf.MoveTowards(
                 _sliderHealthBar.value,
                 _currentValueHealthBar, 
                 Time.deltaTime * _healthBarFillingRate);
+                yield return null;
+            }
         }
     }
 }
