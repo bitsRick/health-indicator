@@ -7,36 +7,39 @@ namespace Player
 {
     public class HealthBar:MonoBehaviour
     {
-        [SerializeField] private Slider _sliderHealthBar; 
-        [SerializeField] private float _healthBarFillingRate;
+        [SerializeField] private Slider _sliderUIBar; 
+        [SerializeField] private float _fillingRateUIBar;
 
-        private float _currentValueHealthBar;
-        private Coroutine _coroutineUpdateHealthBar;
+        private float _currentValue;
+        private Coroutine _fillingUiBarRoutine;
 
-        public void UpdateValueHealthBar(float health) => 
-            _coroutineUpdateHealthBar = StartCoroutine(FadeIn(health));
-
-        public void SetValueHealthBar(float maxHealth,float currentValue)
+        public void UpdateValue(float value)
         {
-            _sliderHealthBar.maxValue = maxHealth;
-            _sliderHealthBar.value = currentValue;
+            if(_fillingUiBarRoutine != null)
+                StopCoroutine(_fillingUiBarRoutine);
+
+            _fillingUiBarRoutine = StartCoroutine(FadeIn(value));
         }
 
-        private IEnumerator FadeIn(float currentValueHealth)
+        public void SetValue(float maxValue,float currentValue)
         {
-            _currentValueHealthBar = currentValueHealth;
+            _sliderUIBar.maxValue = maxValue;
+            _sliderUIBar.value = currentValue;
+        }
+
+        private IEnumerator FadeIn(float value)
+        {
+            _currentValue = value;
             
-            while (_sliderHealthBar.value != _currentValueHealthBar)
+            while (_sliderUIBar.value != _currentValue)
             {
-                _sliderHealthBar.value = Mathf.MoveTowards(
-                _sliderHealthBar.value,
-                _currentValueHealthBar, 
-                Time.deltaTime * _healthBarFillingRate);
+                _sliderUIBar.value = Mathf.MoveTowards(
+                _sliderUIBar.value,
+                _currentValue, 
+                Time.deltaTime * _fillingRateUIBar);
 
                 yield return null;
             }
-            
-            StopCoroutine(_coroutineUpdateHealthBar);
         }
     }
 }

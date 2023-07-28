@@ -1,51 +1,47 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     [RequireComponent(typeof(HealthBar))]
     public class Player : MonoBehaviour
     {
-        private const float MinimumHealthHero = 0f;
+        private const float MinimumHealth = 0f;
+        private const float MaximumHealth = 100f;
 
         [SerializeField] private HealthBar _healthBar;
-        [SerializeField] private UnityEvent<float> _eventUpdateHealthBar;
-        
-        private float _maxHealth = 100f;
+        [SerializeField] private UnityEvent<float> _updatedBarValue;
+
         private float _currentHealth = 50f;
 
         private void OnEnable()
         {
-            _eventUpdateHealthBar.AddListener(_healthBar.UpdateValueHealthBar);
+            _updatedBarValue.AddListener(_healthBar.UpdateValue);
         }
 
         private void Start()
         {
-            _healthBar.SetValueHealthBar(_maxHealth,_currentHealth);
+            _healthBar.SetValue(MaximumHealth,_currentHealth);
         }
 
         private void OnDisable()
         {
-            _eventUpdateHealthBar.RemoveListener(_healthBar.UpdateValueHealthBar);
+            _updatedBarValue.RemoveListener(_healthBar.UpdateValue);
         }
 
         public void AddHealth(float addHealth = 10f) => 
-            UpdateValueHealth(_currentHealth += addHealth);
+            UpdateHealth(addHealth);
 
         public void AddDamage(float addDamage = 10f) => 
-            UpdateValueHealth(_currentHealth -= addDamage);
+            UpdateHealth(-addDamage);
 
-        private void UpdateValueHealth(float updateValue)
+        private void UpdateHealth(float updateValue)
         {
-            _currentHealth = updateValue;
-
-            if (_currentHealth > _maxHealth) 
-                _currentHealth = _maxHealth;
-            else if(_currentHealth < MinimumHealthHero)
-                _currentHealth = MinimumHealthHero;
-            
-            _eventUpdateHealthBar.Invoke(_currentHealth);
+            _currentHealth += updateValue;
+            _currentHealth = Mathf.Clamp(_currentHealth,MinimumHealth,MaximumHealth);
+            _updatedBarValue.Invoke(_currentHealth);
         }
     }
 }

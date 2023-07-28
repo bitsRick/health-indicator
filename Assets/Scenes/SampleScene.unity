@@ -1207,12 +1207,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 1661214495}
-  _eventUpdateHealthBar:
+  _updatedBarValue:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1661214495}
         m_TargetAssemblyTypeName: Player.HealthBar, Assembly-CSharp
-        m_MethodName: UpdateValueHealthBar
+        m_MethodName: UpdateValue
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1234,8 +1234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca39f37f3e9482a8a2d821c96bf0ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sliderHealthBar: {fileID: 1663319965}
-  _healthBarFillingRate: 5
+  _sliderUIBar: {fileID: 1663319965}
+  _fillingRateUIBar: 8
 --- !u!1 &1663319963
 GameObject:
   m_ObjectHideFlags: 0
