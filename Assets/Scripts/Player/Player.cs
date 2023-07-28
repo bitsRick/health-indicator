@@ -12,13 +12,13 @@ namespace Player
         private const float MaximumHealth = 100f;
 
         [SerializeField] private HealthBar _healthBar;
-        [SerializeField] private UnityEvent<float> _updatedBarValue;
-
+        
+        private UnityAction<float> _updatedBarValue;
         private float _currentHealth = 50f;
 
         private void OnEnable()
         {
-            _updatedBarValue.AddListener(_healthBar.UpdateValue);
+            _updatedBarValue += _healthBar.UpdateValue;
         }
 
         private void Start()
@@ -28,7 +28,7 @@ namespace Player
 
         private void OnDisable()
         {
-            _updatedBarValue.RemoveListener(_healthBar.UpdateValue);
+            _updatedBarValue -= _healthBar.UpdateValue;
         }
 
         public void AddHealth(float addHealth = 10f) => 
@@ -41,7 +41,7 @@ namespace Player
         {
             _currentHealth += updateValue;
             _currentHealth = Mathf.Clamp(_currentHealth,MinimumHealth,MaximumHealth);
-            _updatedBarValue.Invoke(_currentHealth);
+            _updatedBarValue?.Invoke(_currentHealth);
         }
     }
 }
