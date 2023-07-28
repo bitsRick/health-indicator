@@ -1206,22 +1206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b9b6ece3e042e4a912627f6b0899d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 1661214495}
-  _updatedBarValue:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1661214495}
-        m_TargetAssemblyTypeName: Player.HealthBar, Assembly-CSharp
-        m_MethodName: UpdateValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1661214495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,6 +1220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sliderUIBar: {fileID: 1663319965}
   _fillingRateUIBar: 8
+  _player: {fileID: 1661214494}
 --- !u!1 &1663319963
 GameObject:
   m_ObjectHideFlags: 0
